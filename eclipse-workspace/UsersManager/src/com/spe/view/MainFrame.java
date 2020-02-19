@@ -10,16 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class MainFrame
  */
-@WebServlet("/Login")
-public class Login extends HttpServlet {
+@WebServlet("/MainFrame")
+public class MainFrame extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public MainFrame() {
+        super();
         // TODO Auto-generated constructor stub
     }
 
@@ -34,12 +35,9 @@ public class Login extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		//2.response
-		out.println("<h1>Sign in</h1>");
-		out.println("<form action='/UsersManager/LoginController' method='post'>");
-		out.println("Username:<input type='text' name='username'/><br/>");
-		out.println("Password:<input type='password' name='password'/><br/>");
-		out.println("<input type='submit' value='Sign in' value='signIn'<br/>");
-		out.println("</form>");
+		out.println("<h1>Main</h1>");
+		out.println("<a href='/UsersManager/Login'>Sign out</a>");
+
 	}
 
 	/**
