@@ -34,8 +34,12 @@ public class MainFrame extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
+		//get uname
+		String username=request.getParameter("uname");
+		String password=request.getParameter("pass");
+		String username02=(String) request.getSession().getAttribute("loginUser");
 		//2.response
-		out.println("<h1>Main</h1>");
+		out.println("<h1>Main</h1>"+username02+password);
 		out.println("<a href='/UsersManager/Login'>Sign out</a>");
 
 	}

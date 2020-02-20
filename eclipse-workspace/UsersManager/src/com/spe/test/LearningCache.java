@@ -30,10 +30,14 @@ public class LearningCache extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("text/html;charset=utf-8");
+		response.setCharacterEncoding("utf-8");
+		//cache save time
+		response.setDateHeader("Expires", System.currentTimeMillis()+3600*1000*24);
 		response.setHeader("Cache-Control", "no-cache");
 		response.setHeader("Pragma", "no-cache");
 		PrintWriter out = response.getWriter();
-		out.println("hello"+new java.util.Date().toString());
+		out.println("hello"+new java.util.Date().toString()	);
 	
 	}
 

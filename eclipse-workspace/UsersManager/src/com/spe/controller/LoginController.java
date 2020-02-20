@@ -36,9 +36,11 @@ public class LoginController extends HttpServlet {
 		
 		//2.check
 		if("charlie".equals(username)&&"123".equals(password)) {
+			//learning session
+			request.getSession().setAttribute("loginUser", username);
+
 			//jump:1sendredircte2forward
-			response.sendRedirect("/UsersManager/MainFrame");
-			
+			response.sendRedirect("/UsersManager/MainFrame?uname="+username+"&pass="+password);
 		}else {
 			//jump back
 			response.sendRedirect("/UsersManager/Login");
