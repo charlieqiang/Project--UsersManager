@@ -9,20 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.spe.domain.User;
-import com.spe.utils.Mytools;
-
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class RegisterController
  */
-@WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+@WebServlet("/RegisterController")
+public class RegisterController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public RegisterController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,30 +30,34 @@ public class LoginController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
-		//1.request
-		//resorve the bug code
 		request.setCharacterEncoding("utf-8");
-		String username=request.getParameter("username");
-		String password=request.getParameter("password");
-		String test=Mytools.getNewString(username);
+		response.setContentType("text/html;charset=utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html;charset=utf-8");
+		response.setCharacterEncoding("utf-8");
 		
-		//2.check
-		if("123".equals(password)) {
-			//learning session
-			request.getSession().setAttribute("loginUser", username);
-			
-			//session get obj
-			User user=new User();
-			user.setName(username);
-			user.setPwd(password);
-			request.getSession().setAttribute("userobj", user);
-			
-			//jump:1sendredircte2forward
-			response.sendRedirect("/UsersManager2/MainFrame?uname="+test+"&pass="+password);
+		String u=request.getParameter("username");
+		String p=request.getParameter("password");
+		String s=request.getParameter("sex");
+		String c=request.getParameter("city");
+		String hd=request.getParameter("hidden");
+		String it=request.getParameter("intro");
+		String[] h=request.getParameterValues("hobby");
+		
+		out.println("username:"+u+"<br/>");
+		out.println("password:"+p+"<br/>");
+		out.println("sex:"+s+"<br/>");
+		if(h!=null) {
+			for(int i=0;i<h.length;i++) {
+				out.println("hobby"+i+":"+h[i]+"<br/>");
+			} 
 		}else {
-			//jump back
-			response.sendRedirect("/UsersManager2/Login");
+			out.println("no hobby"+"<br/>");
 		}
+		out.println("city:"+c+"<br/>");
+		out.println("intro:"+it+"<br/>");
+		out.println("hidden:"+hd+"<br/>");
 	}
 
 	/**

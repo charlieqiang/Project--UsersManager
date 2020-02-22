@@ -1,4 +1,4 @@
-package com.spe.controller;
+package com.spe.view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,20 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.spe.domain.User;
-import com.spe.utils.Mytools;
-
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class MainFrame
  */
-@WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+@WebServlet("/MainFrame")
+public class MainFrame extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public MainFrame() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,30 +30,20 @@ public class LoginController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
-		//1.request
-		//resorve the bug code
-		request.setCharacterEncoding("utf-8");
-		String username=request.getParameter("username");
-		String password=request.getParameter("password");
-		String test=Mytools.getNewString(username);
-		
-		//2.check
-		if("123".equals(password)) {
-			//learning session
-			request.getSession().setAttribute("loginUser", username);
-			
-			//session get obj
-			User user=new User();
-			user.setName(username);
-			user.setPwd(password);
-			request.getSession().setAttribute("userobj", user);
-			
-			//jump:1sendredircte2forward
-			response.sendRedirect("/UsersManager2/MainFrame?uname="+test+"&pass="+password);
-		}else {
-			//jump back
-			response.sendRedirect("/UsersManager2/Login");
-		}
+//		//1.init page
+		response.setContentType("text/html;charset=utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+//		//get uname
+//		String username=request.getParameter("uname");
+//		String password=request.getParameter("pass");
+//		String username02=(String) request.getSession().getAttribute("loginUser");
+//		//get session
+//		User user=(User) request.getSession().getAttribute("userobj");
+		//2.response
+		out.println("<h1>Main</h1>");
+		out.println("<a href='/UsersManager3.0/Login'>Sign out</a>");
+
 	}
 
 	/**

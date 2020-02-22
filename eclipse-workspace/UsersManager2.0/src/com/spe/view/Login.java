@@ -9,20 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.spe.domain.User;
-
 /**
- * Servlet implementation class MainFrame
+ * Servlet implementation class Login
  */
-@WebServlet("/MainFrame")
-public class MainFrame extends HttpServlet {
+@WebServlet("/Login")
+public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
-     * @see HttpServlet#HttpServlet()
+     * Default constructor. 
      */
-    public MainFrame() {
-        super();
+    public Login() {
         // TODO Auto-generated constructor stub
     }
 
@@ -36,16 +33,13 @@ public class MainFrame extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		//get uname
-//		String username=request.getParameter("uname");
-//		String password=request.getParameter("pass");
-//		String username02=(String) request.getSession().getAttribute("loginUser");
-		//get session
-//		User user=(User) request.getSession().getAttribute("userobj");
 		//2.response
-		out.println("<h1>Main</h1>");
-		out.println("<a href='/UsersManager2/Login'>Sign out</a>");
-
+		out.println("<h1>hello world</h1>");
+		out.println("<form action='/UsersManager2.0/LoginController' method='GET'>");
+		out.println("UserId:<input type='text' name='id'/><br/>");
+		out.println("Password:<input type='password' name='password'/><br/>");
+		out.println("<input type='submit' value='Sign in' value='signIn'<br/>");
+		out.println("</form>");
 	}
 
 	/**

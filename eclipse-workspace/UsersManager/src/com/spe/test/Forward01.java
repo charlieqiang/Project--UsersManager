@@ -1,4 +1,4 @@
-package com.spe.view;
+package com.spe.test;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,19 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.spe.domain.User;
-
 /**
- * Servlet implementation class MainFrame
+ * Servlet implementation class Forward01
  */
-@WebServlet("/MainFrame")
-public class MainFrame extends HttpServlet {
+@WebServlet("/Forward01")
+public class Forward01 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MainFrame() {
+    public Forward01() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,21 +29,17 @@ public class MainFrame extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		//1.init page
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		//get uname
-//		String username=request.getParameter("uname");
-//		String password=request.getParameter("pass");
-//		String username02=(String) request.getSession().getAttribute("loginUser");
-		//get session
-//		User user=(User) request.getSession().getAttribute("userobj");
-		//2.response
-		out.println("<h1>Main</h1>");
-		out.println("<a href='/UsersManager2/Login'>Sign out</a>");
-
+		
+		String u=request.getParameter("username");
+		//push into request domain obj
+		request.setAttribute("username", u);
+		
+		//transmit the response and requese to Forward02
+		request.getRequestDispatcher("/Forward02").forward(request, response);
+		
 	}
 
 	/**
