@@ -41,9 +41,22 @@ public class MainFrame extends HttpServlet {
 //		//get session
 //		User user=(User) request.getSession().getAttribute("userobj");
 		//2.response
-		out.println("<h1>Main</h1>");
+		
+		out.println("<span>hello xx</span>");
+		
+		
 		out.println("<a href='/UsersManager3.0/Login'>Sign out</a>");
-
+		
+		out.println("<hr/>");
+		out.println("<h3>plz select</h3>");
+		out.println("<a href='/UsersManager3.0/ManageUsers'>Manage users</a><br/>");
+		out.println("<a href='/UsersManager3.0/Login'>Add users</a><br/>");
+		out.println("<a href='/UsersManager3.0/Login'>Find users</a><br/>");
+		out.println("<a href='/UsersManager3.0/Login'>Exit</a><br/>");
+		out.println("<hr/>");
+		//sql
+		
+		
 	}
 
 	/**

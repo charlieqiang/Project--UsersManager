@@ -34,12 +34,20 @@ public class Login extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		//2.response
+		out.println("<hr/>");
 		out.println("<h1>hello world</h1>");
 		out.println("<form action='/UsersManager3.0/LoginController' method='GET'>");
 		out.println("UserId:<input type='text' name='id'/><br/>");
 		out.println("Password:<input type='password' name='password'/><br/>");
 		out.println("<input type='submit' value='Sign in' value='signIn'<br/>");
 		out.println("</form>");
+		
+		String errInfo=(String) request.getAttribute("err");
+		if(errInfo!=null) {
+			out.println("errInfo:"+errInfo);
+		}
+		
+		out.println("<hr/>");
 	}
 
 	/**
