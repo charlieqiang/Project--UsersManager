@@ -7,12 +7,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.spe.domain.User;
+import com.spe.service.UserService;
 
 /**
  * Servlet implementation class ManageUsers
@@ -53,19 +57,22 @@ public class ManageUsers extends HttpServlet {
 		out.println("<hr/>");
 		
 		out.println("<h1>ManageUsers</h1>");
-		Connection ct=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		String driver = "com.mysql.jdbc.Driver";
-		String sql = "jdbc:mysql://localhost:3306/userdb?useSSL=false&serverTimezone=UTC";
-		String user = "root";
-		String passwd = "123456";
+		
+		
+		
+//		Connection ct=null;
+//		PreparedStatement ps=null;
+//		ResultSet rs=null;
+//		String driver = "com.mysql.jdbc.Driver";
+//		String sql = "jdbc:mysql://localhost:3306/userdb?useSSL=false&serverTimezone=UTC";
+//		String user = "root";
+//		String passwd = "123456";
 		
 		//set page
 		int pageNow=1;
 		int pageSize=3;
-		int pageCount=1;
-		int rowCount=1;
+//		int pageCount=1;
+//		int rowCount=1;
 		
 		String pageNowString=request.getParameter("pageNow");
 		if(pageNowString!=null) {
@@ -74,31 +81,35 @@ public class ManageUsers extends HttpServlet {
 		
 		try {
 			//1.load driver
-			Class.forName(driver);
-			//2.get connetion
-			ct=DriverManager.getConnection(sql,user,passwd);
-			//3.create preparedStatement
-			//count page
-			ps=ct.prepareStatement("select count(*) from users");
-			rs=ps.executeQuery();
-//			System.out.println(rs.getObject(1));
-			rs.next();
+//			Class.forName(driver);
+//			//2.get connetion
+//			ct=DriverManager.getConnection(sql,user,passwd);
+////			//3.create preparedStatement
+////			//count page
+//			ps=ct.prepareStatement("select count(*) from users");
+//			rs=ps.executeQuery();
+//////			System.out.println(rs.getObject(1));
+//			rs.next();
+			
+			
 			rowCount = rs.getInt(1);
 			pageCount = rowCount%pageSize==0 ? rowCount/pageSize : rowCount/pageSize + 1;
-			
-			ps = ct.prepareStatement("select * from users  limit "+((pageNow-1)*pageSize)+","+pageSize+";");
+//			
+//			ps = ct.prepareStatement("select * from users  limit "+((pageNow-1)*pageSize)+","+pageSize+";");
 			//4.do it
-			rs=ps.executeQuery();
-			
+//			rs=ps.executeQuery();
+			UserService userService=new UserService();
+			ArrayList<User> al =userService.getUserByPage(pageNow, pageSize);
 			
 			//5.solve
 			out.println("<table border=1 width=500px>");
 			out.println("<tr><th>id</th><th>username</th><th>email</th><th>grade</th></tr>");
-			while(rs.next()) {
-				out.println("<tr><td>"+rs.getInt(1)+
-						"</td><td>"+rs.getString(2)+
-						"</td><td>"+rs.getString(3)+
-						"</td><td>"+rs.getInt(4)+
+//			while(rs.next()) {
+			for(User u:al) {
+				out.println("<tr><td>"+u.getId()+
+						"</td><td>"+u.getName()+
+						"</td><td>"+u.getEmail()+
+						"</td><td>"+u.getGrade()+
 						"</td></tr>");
 			}
 			out.println("</table><br/>");
