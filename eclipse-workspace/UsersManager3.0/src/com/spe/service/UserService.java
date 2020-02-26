@@ -13,7 +13,7 @@ import com.spe.utils.SqlHelper;
 
 public class UserService {
 	// getpage Count
-	public int getPageCount(int pageSize) {
+	public static int getPageCount(int pageSize) {
 		
 		String sql="select count(*) from users";
 		ResultSet rs=SqlHelper.executeQuery(sql, null);
@@ -59,6 +59,76 @@ public class UserService {
 		}
 		
 		return al;
+	}
+	//use id get msg
+	public static User getUserById(String id) {
+		
+		User user=new User();
+		String sql="select * from users where id=?";
+		String parameters[]= {id};
+		ResultSet rs=SqlHelper.executeQuery(sql, parameters);
+		try {
+			if(rs.next()) {
+				user.setId(rs.getInt(1));
+				user.setName(rs.getString(2));
+				user.setEmail(rs.getString(3));
+				user.setGrade(rs.getInt(4));
+				user.setPwd(rs.getString(5));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			SqlHelper.close(rs,SqlHelper.getPs(),SqlHelper.getCt());
+			
+
+		}
+		return user;
+	}
+	//add
+	public static boolean addUser(User user) {
+		boolean b=true;
+		String sql="insert into users values(null,?,?,?,?)";
+		String parameters[]= {user.getName(),user.getEmail(),user.getGrade()+"",user.getPwd()	};
+		try {
+			SqlHelper.executeUpdate(sql, parameters);
+		} catch (Exception e) {
+			b=false;
+			e.printStackTrace();
+		}
+		return b;
+		
+		
+	}
+	//change
+	public static boolean updUser(User user) {
+		boolean b=true;
+		String sql="update users set username=?, email=?, grade=?, passwd=? where id=?";
+		String parameters[]= {user.getName(),user.getEmail(),user.getGrade()+"",user.getPwd(),user.getId()+""};
+		try {
+			SqlHelper.executeUpdate(sql, parameters);
+		} catch (Exception e) {
+			b=false;
+			e.printStackTrace();
+		}
+		return b;
+		
+		
+	}
+	//delete
+	public boolean delUser(String id) {
+		boolean b=true;
+		String sql="delete from users where id=?";
+		String parameters[]= {id};
+		try {
+			SqlHelper.executeUpdate(sql, parameters);
+		} catch (Exception e) {
+			b=false;
+			e.printStackTrace();
+		}
+		return b;
+		
+		
 	}
 	//check user
 	public boolean checkUser(User user) {

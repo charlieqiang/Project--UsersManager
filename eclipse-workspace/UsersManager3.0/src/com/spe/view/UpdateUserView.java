@@ -9,17 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.spe.domain.User;
+
 /**
- * Servlet implementation class MainFrame
+ * Servlet implementation class UpdateUserView
  */
-@WebServlet("/MainFrame")
-public class MainFrame extends HttpServlet {
+@WebServlet("/UpdateUserView")
+public class UpdateUserView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MainFrame() {
+    public UpdateUserView() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,33 +32,22 @@ public class MainFrame extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
-//		//1.init page
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-//		//get uname
-//		String username=request.getParameter("uname");
-//		String password=request.getParameter("pass");
-//		String username02=(String) request.getSession().getAttribute("loginUser");
-//		//get session
-//		User user=(User) request.getSession().getAttribute("userobj");
-		//2.response
-		
-		out.println("<span>hello xx</span>");
-		
-		
-		out.println("<a href='/UsersManager3.0/Login'>Sign out</a>");
-		
-		out.println("<hr/>");
-		out.println("<h3>plz select</h3>");
-		out.println("<a href='/UsersManager3.0/ManageUsers'>Manage users</a><br/>");
-		out.println("<a href='/UsersManager3.0/UserControllor?type=gotoAddUser'>Add users</a><br/>");
-		out.println("<a href='/UsersManager3.0/Login'>Find users</a><br/>");
-		out.println("<a href='/UsersManager3.0/Login'>Exit</a><br/>");
-		out.println("<hr/>");
-		//sql
-		
-		
+		//get userbean
+		User user = (User) request.getAttribute("userinfo");
+		//disp
+		out.println("<form action='/UsersManager3.0/UserControllor?type=update' method='post'>");
+		out.println("<table border=1 width=500px>");
+		out.println("<tr><td>id</td><td><input type='text' name='id' readonly value='"+user.getId()+"'/></td></tr>"
+				+ "<tr><td>username</td><td><input type='text' name='username' value='"+user.getName()+"'/></td></tr>"
+				+ "<tr><td>email</td><td><input type='text' name='email' value='"+user.getEmail()+"'/></td></tr>"
+				+ "<tr><td>grade</td><td><input type='text' name='grade' value='"+user.getGrade()+"'/></td></tr>"
+				+ "<tr><td>password</td><td><input type='text' name='passwd' value='"+user.getPwd()+"'/></td></tr>"
+				+ "<tr><td><input type='submit' value='change'/></td><td><input type='reset' value='reset'/></td></tr>");
+		out.println("</form></table>");
 	}
 
 	/**

@@ -1,12 +1,23 @@
 package com.spe.domain;
 
 public class User {
+
 	private String name;
 	private String pwd;
 	private int id;
 	private int grade;
 	private String email;
-	
+	public User() {
+		
+	}
+	public User(int id, String name, String email, int grade, String pwd) {
+		super();
+		this.name = name;
+		this.pwd = pwd;
+		this.id = id;
+		this.grade = grade;
+		this.email = email;
+	}
 	public int getId() {
 		return id;
 	}

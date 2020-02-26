@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class MainFrame
+ * Servlet implementation class delErr
  */
-@WebServlet("/MainFrame")
-public class MainFrame extends HttpServlet {
+@WebServlet("/dupErr")
+public class updErr extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MainFrame() {
+    public updErr() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,34 +29,14 @@ public class MainFrame extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-//		//1.init page
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-//		//get uname
-//		String username=request.getParameter("uname");
-//		String password=request.getParameter("pass");
-//		String username02=(String) request.getSession().getAttribute("loginUser");
-//		//get session
-//		User user=(User) request.getSession().getAttribute("userobj");
-		//2.response
-		
-		out.println("<span>hello xx</span>");
-		
-		
-		out.println("<a href='/UsersManager3.0/Login'>Sign out</a>");
-		
-		out.println("<hr/>");
-		out.println("<h3>plz select</h3>");
-		out.println("<a href='/UsersManager3.0/ManageUsers'>Manage users</a><br/>");
-		out.println("<a href='/UsersManager3.0/UserControllor?type=gotoAddUser'>Add users</a><br/>");
-		out.println("<a href='/UsersManager3.0/Login'>Find users</a><br/>");
-		out.println("<a href='/UsersManager3.0/Login'>Exit</a><br/>");
-		out.println("<hr/>");
-		//sql
-		
-		
+		out.println("<h1>"+request.getAttribute("info")+"</h1>");
+		out.println("<a href='/UsersManager3.0/ManageUsers'>back</a>");
+
 	}
 
 	/**

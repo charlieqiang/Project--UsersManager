@@ -49,9 +49,11 @@ public class ManageUsers extends HttpServlet {
 				+ "var pageNow=document.getElementById('pageNow').value;"
 				+ "window.open('/UsersManager3.0/ManageUsers?pageNow='+pageNow,'_self');"
 				+ "}"
+				+ "function confirmDel(){"
+				+ "return window.confirm('It will delete the user!');"
+				+ "}"
 				+ "</script>");
 		out.println("<span>hello xx</span>");
-		
 		
 		out.println("<a href='/UsersManager3.0/Login'>Sign out</a>");
 		out.println("<hr/>");
@@ -71,7 +73,7 @@ public class ManageUsers extends HttpServlet {
 		//set page
 		int pageNow=1;
 		int pageSize=3;
-//		int pageCount=1;
+		int pageCount=1;
 //		int rowCount=1;
 		
 		String pageNowString=request.getParameter("pageNow");
@@ -80,36 +82,33 @@ public class ManageUsers extends HttpServlet {
 		}
 		
 		try {
-			//1.load driver
-//			Class.forName(driver);
-//			//2.get connetion
-//			ct=DriverManager.getConnection(sql,user,passwd);
-////			//3.create preparedStatement
-////			//count page
-//			ps=ct.prepareStatement("select count(*) from users");
-//			rs=ps.executeQuery();
-//////			System.out.println(rs.getObject(1));
-//			rs.next();
+
+			UserService userService=new UserService();
 			
-			
-			rowCount = rs.getInt(1);
-			pageCount = rowCount%pageSize==0 ? rowCount/pageSize : rowCount/pageSize + 1;
+			pageCount = UserService.getPageCount(pageSize);
 //			
 //			ps = ct.prepareStatement("select * from users  limit "+((pageNow-1)*pageSize)+","+pageSize+";");
 			//4.do it
 //			rs=ps.executeQuery();
-			UserService userService=new UserService();
+			
 			ArrayList<User> al =userService.getUserByPage(pageNow, pageSize);
 			
 			//5.solve
 			out.println("<table border=1 width=500px>");
-			out.println("<tr><th>id</th><th>username</th><th>email</th><th>grade</th></tr>");
+			out.println("<tr><th>id</th>"
+					+ "<th>username</th>"
+					+ "<th>email</th>"
+					+ "<th>grade</th>"
+					+ "<th>change</th>"
+					+ "<th>delete</th></tr>");
 //			while(rs.next()) {
 			for(User u:al) {
 				out.println("<tr><td>"+u.getId()+
 						"</td><td>"+u.getName()+
 						"</td><td>"+u.getEmail()+
 						"</td><td>"+u.getGrade()+
+						"</td><td>"+"<a href='/UsersManager3.0/UserControllor?type=gotoUpdView&id="+u.getId()+"'>change</a>"+
+						"</td><td>"+"<a onclick='return confirmDel();'href='/UsersManager3.0/UserControllor?type=del&id="+u.getId()+"'>delete</a>"+
 						"</td></tr>");
 			}
 			out.println("</table><br/>");
@@ -137,32 +136,8 @@ public class ManageUsers extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("err", "UserId or password wrong.");
 			request.getRequestDispatcher("/Login").forward(request, response);
-		} finally {
-			if(rs!=null)
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			if(ps!=null)
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			if(ct!=null)
-				try {
-					ct.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-		}
-		
+		} 
+	} 
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
