@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.spe.domain.User;
+
 /**
  * Servlet implementation class MainFrame
  */
@@ -30,7 +32,15 @@ public class MainFrame extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
-//		//1.init page
+		//get login user
+		User u=(User) request.getSession().getAttribute("login");
+		//check
+		if(u==null) {
+			request.setAttribute("err", "plz input userid and passwd");
+			request.getRequestDispatcher("/Login").forward(request, response);
+			return;
+		}
+		//1.init page
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
@@ -41,8 +51,8 @@ public class MainFrame extends HttpServlet {
 //		//get session
 //		User user=(User) request.getSession().getAttribute("userobj");
 		//2.response
-		
-		out.println("<span>hello xx</span>");
+		String nums=this.getServletContext().getAttribute("nums").toString();
+		out.println("<span>there are "+nums+" users online!</span>");
 		
 		
 		out.println("<a href='/UsersManager3.0/Login'>Sign out</a>");
@@ -51,7 +61,8 @@ public class MainFrame extends HttpServlet {
 		out.println("<h3>plz select</h3>");
 		out.println("<a href='/UsersManager3.0/ManageUsers'>Manage users</a><br/>");
 		out.println("<a href='/UsersManager3.0/UserControllor?type=gotoAddUser'>Add users</a><br/>");
-		out.println("<a href='/UsersManager3.0/Login'>Find users</a><br/>");
+		out.println("<a href='/UsersManager3.0/ShowBook'>Show Book</a><br/>");
+		out.println("<a href='/UsersManager3.0/ShowMyCart'>Show My Cart</a><br/>");
 		out.println("<a href='/UsersManager3.0/Login'>Exit</a><br/>");
 		out.println("<hr/>");
 		//sql
