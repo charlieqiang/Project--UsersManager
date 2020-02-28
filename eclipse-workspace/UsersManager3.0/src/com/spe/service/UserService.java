@@ -38,25 +38,42 @@ public class UserService {
 		ArrayList<User> al=new ArrayList<User>();
 		//
 		String sql="select * from users  limit "+((pageNow-1)*pageSize)+","+pageSize+";";
-		ResultSet rs=SqlHelper.executeQuery(sql, null);
+//		ResultSet rs=SqlHelper.executeQuery(sql, null);
+		ArrayList al02=SqlHelper.executeQuery3(sql, null);
+		//second package
+		
+		
 		//package
 		try {
-			while(rs.next()) {
-				User u=new User();
-				u.setId(rs.getInt(1));
-				u.setName(rs.getString(2));
-				u.setEmail(rs.getString(3));
-				u.setGrade(rs.getInt(4));
-				//
-				al.add(u);
+			
+			for(int i=0;i<al02.size();i++) {
+				Object[] objs=(Object[])al02.get(i);
+				User user=new User();
+				user.setId(Integer.parseInt(objs[0].toString()));
+				user.setName(objs[1].toString());
+				user.setEmail(objs[2].toString());
+				user.setGrade(Integer.parseInt(objs[3].toString()));
+				user.setPwd(objs[4].toString());
+				al.add(user);
 			}
-		} catch (SQLException e) {
+			
+//			while(rs.next()) {
+//				User u=new User();
+//				u.setId(rs.getInt(1));
+//				u.setName(rs.getString(2));
+//				u.setEmail(rs.getString(3));
+//				u.setGrade(rs.getInt(4));
+//				//
+//				al.add(u);
+			
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			SqlHelper.close(rs,SqlHelper.getPs(),SqlHelper.getCt());
-
 		}
+//		} finally {
+//			SqlHelper.close(rs,SqlHelper.getPs(),SqlHelper.getCt());
+//
+//		}
 		
 		return al;
 	}
@@ -67,6 +84,8 @@ public class UserService {
 		String sql="select * from users where id=?";
 		String parameters[]= {id};
 		ResultSet rs=SqlHelper.executeQuery(sql, parameters);
+		
+		
 		try {
 			if(rs.next()) {
 				user.setId(rs.getInt(1));
@@ -137,17 +156,19 @@ public class UserService {
 		String sql="select * from users where id=? and passwd=?";
 		String parameters[]= {user.getId()+"",user.getPwd()};
 		
-		ResultSet rs=SqlHelper.executeQuery(sql,parameters);
+//		ResultSet rs=SqlHelper.executeQuery(sql,parameters);
+		ArrayList al = SqlHelper.executeQuery3(sql, parameters);
+		
 		//check 
 		try {
-			if(rs.next()) {
+			if(al.size()==1) {
 				b=true;
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			SqlHelper.close(rs,SqlHelper.getPs(),SqlHelper.getCt());
+//			SqlHelper.close(al,SqlHelper.getPs(),SqlHelper.getCt());
 		}
 		
 		return b;

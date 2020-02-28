@@ -13,10 +13,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 
 import javax.management.RuntimeErrorException;
+
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 
 public class SqlHelper {
@@ -175,6 +178,46 @@ public class SqlHelper {
 //				close(rs, ps, ct);
 		}
 		return rs;
+	}
+	//only one crud
+	public static ArrayList executeQuery3(String sql, String[] parameters) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet inrs = null;
+		
+		try {
+			conn=getConnection();
+			
+			pstmt=conn.prepareStatement(sql);
+			
+			if(parameters!=null&&!parameters.equals("")) {
+				for(int i=0;i<parameters.length;i++) {
+					pstmt.setObject(i+1, parameters[i]);
+				}
+			}
+			inrs = pstmt.executeQuery();
+			ArrayList al = new ArrayList();
+			ResultSetMetaData rsmd = (ResultSetMetaData) inrs.getMetaData();
+			int column = rsmd.getColumnCount();
+
+			while(inrs.next()) {
+				Object[] ob = new Object[column];
+				for (int i = 1;i<=column;i++) {
+					ob[i-1]=inrs.getObject(i);
+				}
+				al.add(ob);
+			}
+//			inrs.close();
+			return al;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			close(inrs, pstmt, conn);
+		
+		}
 	}
 	//考虑事物的crud
 	public static void executeUpdate2(String sql[],String [][]parameters) {
