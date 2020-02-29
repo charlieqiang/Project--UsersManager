@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>  
+    <h1>Test Ajax</h1><p>  
+    <form action="" method="get" name="form">  
+        <br>  
+        输入用户名：  
+        <input type="text" size="10" maxlength="8" id="userName" name="name" onblur="validate()">  
+        <span id="info"></span>  
+        <br>  
+        输入商品名：  
+        <input type="text" size="10" maxlength="8" >  
+    </form>  
+	<p>
+    <select name="" id="province" onchange="validate();">
+        <option value="">province</option>
+        <option value="Fujian">Fujian</option>
+        <option value="Beijing">Beijing</option>
+    </select>&nbsp;
+    <select name="" id="city">
+        <option value="">city</option>
+    </select>&nbsp;
+    <select name="" id="county">
+        <option value="">county</option>
+    </select>
+
+</body>  
+<script type="text/javascript">
+//line 1
+var req;  
+function validate() {  
+    //获取表单提交的内容  
+    // var idField = document.getElementById("userName");  
+    var idField = document.getElementById("province");  
+    //访问servlet，同时把获取的表单内容idField加入url字符串，以便传递给validate.do  
+    //get
+    //var url = "/UsersManager3.0/CheckController?id=" + escape(idField.value);                  
+    //post
+    var url = "/UsersManager3.0/CallCountryController";
+    //escape decode string   
+    var data = "province="+ escape(idField.value);                	
+    //创建一个XMLHttpRequest对象req  
+    if(window.XMLHttpRequest) {  
+        //IE7, Firefox, Opera支持  
+        req = new XMLHttpRequest();  
+    }else if(window.ActiveXObject) {  
+        //IE5,IE6支持  
+        req = new ActiveXObject("Microsoft.XMLHTTP");  
+    }  
+    /* 
+     open(String method,String url, boolean )函数有3个参数 
+     method参数指定向servlet发送请求所使用的方法，有GET,POST等 
+     boolean值指定是否异步，true为使用，false为不使用。 
+     我们使用异步才能体会到Ajax强大的异步功能。 
+     */  
+    req.open("POST", url, true);  
+    //post must with head
+    req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    
+    //onreadystatechange属性存有处理服务器响应的函数,有5个取值分别代表不同状态  
+    req.onreadystatechange = callback;  
+    //send函数发送请求  
+    //line 2
+    req.send(data);   
+                   
+}  
+//line 4
+function callback() {  
+    if(req.readyState == 4 && req.status == 200) {  
+        var cities = req.responseXML.getElementsByTagName("city");
+        //alert(cities.length);
+        //refresh
+        $('city').length=0;
+        var myOption=document.createElement("option");
+        myOption.innerText="city";
+        $('city').appendChild(myOption);
+        for(var i=0;i<cities.length;i++){
+        	var cityName=cities[i].childNodes[0].nodeValue;
+        	alert(cityName+"");
+        	//createElement
+        	var myOption=document.createElement("option");
+            myOption.value=cityName;
+            myOption.innerText=cityName;
+            //add
+            $('city').appendChild(myOption);
+        }
+        
+        // var msg = req.responseText;
+		//ecal power
+		// var msgVal=eval("("+msg+")");
+		
+        // show (msgVal.msg+""); 
+
+
+    }  
+}  
+
+function $(id){
+    return document.getElementById(id);
+}
+  
+function show(str) {  
+    if(str == "OK") {  
+        var show = "<font color='green'>恭喜！！用户名可用！</font>";  
+        document.getElementById("info").innerHTML = show;  
+    }  
+    else if( str == "NO") {  
+        var show = "<font color='red'>对不起，用户名不可用！！请重新输入！</font>";  
+        document.getElementById("info").innerHTML = show;  
+    }  
+}  
+</script>
+</html>
