@@ -33,6 +33,8 @@ public class InitService extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
+		
+		//core code!!
 		super.init(config);
 		FileReader fr=null;
         BufferedReader br=null;
