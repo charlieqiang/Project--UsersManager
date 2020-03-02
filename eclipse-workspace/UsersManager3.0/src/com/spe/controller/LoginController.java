@@ -49,7 +49,7 @@ public class LoginController extends HttpServlet {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		
-
+		System.out.println("get");
 		//1.request
 		//resorve the bug code
 		request.setCharacterEncoding("utf-8");
@@ -59,6 +59,7 @@ public class LoginController extends HttpServlet {
 		//new 
 		UserService userService=new UserService();
 		User user=new User();
+		User userOk=new User();
 		user.setId(Integer.parseInt(id));
 		user.setPwd(password);
 		//get session
@@ -68,11 +69,13 @@ public class LoginController extends HttpServlet {
 		if(checkcode.equals(checkcodeS)) {
 			if(userService.checkUser(user)) {
 				//
+				userOk=UserService.getUserById(id);
 				HttpSession session=request.getSession();
 				session.setAttribute("login", user);
 				String nums=(String) this.getServletContext().getAttribute("nums");
 				
 				this.getServletContext().setAttribute("nums", ""+(Integer.parseInt(nums)+1));
+				this.getServletContext().setAttribute("username", userOk.getName());
 				
 				
 				response.sendRedirect("/UsersManager3.0/MainFrame");

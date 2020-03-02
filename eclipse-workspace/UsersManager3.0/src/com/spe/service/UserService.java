@@ -104,6 +104,8 @@ public class UserService {
 		}
 		return user;
 	}
+	
+
 	//add
 	public static boolean addUser(User user) {
 		boolean b=true;

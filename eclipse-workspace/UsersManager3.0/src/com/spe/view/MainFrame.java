@@ -45,14 +45,16 @@ public class MainFrame extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 //		//get uname
-//		String username=request.getParameter("uname");
+//		String username=request.getParameter("username");
 //		String password=request.getParameter("pass");
 //		String username02=(String) request.getSession().getAttribute("loginUser");
 //		//get session
 //		User user=(User) request.getSession().getAttribute("userobj");
 		//2.response
 		String nums=this.getServletContext().getAttribute("nums").toString();
-		out.println("<span>there are "+nums+" users online!</span>");
+		String username=this.getServletContext().getAttribute("username").toString();
+		request.getSession().setAttribute("username",username);
+		out.println("<span>Hi,"+username+"!  There are "+nums+" users online!</span>");
 		
 		
 		out.println("<a href='/UsersManager3.0/Login'>Sign out</a>");
@@ -62,6 +64,7 @@ public class MainFrame extends HttpServlet {
 		out.println("<a href='/UsersManager3.0/ManageUsers'>Manage users</a><br/>");
 		out.println("<a href='/UsersManager3.0/UserControllor?type=gotoAddUser'>Add users</a><br/>");
 		out.println("<a href='/UsersManager3.0/ShowBook'>Show Book</a><br/>");
+		out.println("<a href='friendList.jsp?seter="+username+"'>Chat Room</a><br/>");
 		out.println("<a href='/UsersManager3.0/ShowMyCart'>Show My Cart</a><br/>");
 		out.println("<a href='/UsersManager3.0/Login'>Exit</a><br/>");
 		out.println("<hr/>");

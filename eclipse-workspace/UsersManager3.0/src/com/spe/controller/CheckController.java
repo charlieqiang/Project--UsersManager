@@ -35,18 +35,20 @@ public class CheckController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();  
         try {  
-            response.setContentType("text/html");  
+//          //abundon cache
             response.setHeader("Cache-Control", "no-store");  
-            //abundon cache
+            
             response.setHeader("Pragma", "no-cache");  
             response.setDateHeader("Expires", 0);  
             String name = request.getParameter("id");
+            String resOK = "{'res':'username','info':'haha'}";
+            String resNO = "{'res':'username','info':'NONO'}";
             //line 3
             if(name.equals("char")) {  
-                out.print("OK");  
+                out.print(resOK);  
             }  
             else {  
-                out.print("NO");  
+                out.print(resNO);  
             }  
         } finally {   
             out.close();  

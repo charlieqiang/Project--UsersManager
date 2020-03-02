@@ -29,19 +29,20 @@ public class CallXmlController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("text/xml;charset=utf-8");
+		
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();  
         try {  
+        	response.setContentType("text/xml");
             response.setHeader("Cache-Control", "no-store");  
             //abundon cache
             response.setHeader("Pragma", "no-cache");  
             response.setDateHeader("Expires", 0);  
             String id = request.getParameter("id");
             //data
-            String OkInfo = "<res><msg>OK</msg></res>";
-            String NoInfo = "<res><msg>NO</msg></res>";
+            String OkInfo = "<res><msg>OK6</msg></res>";
+            String NoInfo = "<res><msg>NO6</msg></res>";
             //line 3
             if(id.equals("char")) {  
                 out.print(OkInfo);  

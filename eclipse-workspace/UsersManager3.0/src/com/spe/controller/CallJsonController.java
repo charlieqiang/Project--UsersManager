@@ -40,10 +40,10 @@ public class CallJsonController extends HttpServlet {
             response.setDateHeader("Expires", 0);  
             String id = request.getParameter("id");
             //data
-            String data01 = "id:001";
-            String data02 = "id:002";
-            String OkInfo = "{\"msg\":\"OK\","+data01+"}";
-            String NoInfo = "{\"msg\":\"NO\","+data02+"}";
+            String data01 = "\"id\":\"001\"";
+            String data02 = "\"id\":\"002\"";
+            String OkInfo = "[{\"msg\":\"OK\","+data01+"},{\"msg\":\"OK\","+data01+"}]";
+            String NoInfo = "[{\"msg\":\"No\","+data02+"},{\"msg\":\"NO\","+data02+"}]";
             //line 3
             if(id.equals("char")) {  
                 out.print(OkInfo);  
