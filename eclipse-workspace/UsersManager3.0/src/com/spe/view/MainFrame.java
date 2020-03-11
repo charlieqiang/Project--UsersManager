@@ -61,7 +61,7 @@ public class MainFrame extends HttpServlet {
 		
 		out.println("<hr/>");
 		out.println("<h3>plz select</h3>");
-		out.println("<a href='/UsersManager3.0/ManageUsers'>Manage users</a><br/>");
+		out.println("<a href='/UsersManager3.0/GoToManageController'>Manage users</a><br/>");
 		out.println("<a href='/UsersManager3.0/UserControllor?type=gotoAddUser'>Add users</a><br/>");
 		out.println("<a href='/UsersManager3.0/ShowBook'>Show Book</a><br/>");
 		out.println("<a href='friendList.jsp?seter="+username+"'>Chat Room</a><br/>");

@@ -49,7 +49,7 @@ public class LoginController extends HttpServlet {
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		
-		System.out.println("get");
+		//System.out.println("get");
 		//1.request
 		//resorve the bug code
 		request.setCharacterEncoding("utf-8");

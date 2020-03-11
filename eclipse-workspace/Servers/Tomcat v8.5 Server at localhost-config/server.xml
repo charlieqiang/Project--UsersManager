@@ -60,7 +60,7 @@
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
     -->
-    <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
+    <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" relaxedQueryChars="[]|{}^\`&quot;&lt;&gt;"/>
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"
@@ -78,7 +78,7 @@
     -->
     <!--
     <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
-               maxThreads="150" SSLEnabled="true">
+               maxThreads="150" SSLEnabled="true" >
         <SSLHostConfig>
             <Certificate certificateKeystoreFile="conf/localhost-rsa.jks"
                          type="RSA" />
@@ -149,7 +149,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="UsersManager3.0" path="/UsersManager3.0" reloadable="true" source="org.eclipse.jst.jee.server:UsersManager3.0"/></Host>
+      <Context docBase="Calculation" path="/Calculation" reloadable="true" source="org.eclipse.jst.jee.server:Calculation"/><Context docBase="UsersManager3.0" path="/UsersManager3.0" reloadable="true" source="org.eclipse.jst.jee.server:UsersManager3.0"/></Host>
     </Engine>
   </Service>
 </Server>
