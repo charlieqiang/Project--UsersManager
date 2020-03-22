@@ -1,27 +1,26 @@
 package controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class ContentController
  */
-@WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+@WebServlet("/ContentController")
+public class ContentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public ContentController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,26 +34,20 @@ public class LoginController extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
-		SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间 
-        sdf.applyPattern("yyyyMMdd");// a为am/pm的标记  
-        Date date = new Date();// 获取当前时间 
-        String pwd = sdf.format(date);
-//        System.out.println(pwd);
         
-		String account=request.getParameter("account");
-		
-		String password=request.getParameter("password");
+		String content=request.getParameter("content");
 
 		//check code
-		if("long".equals(account)&&pwd.equals(password)) {
+		if("upload".equals(content)) {
 
-			request.getRequestDispatcher("/WEB-INF/main.jsp" ).forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/upload.jsp" ).forward(request, response);
 				
-		}else {
-//			request.setAttribute("err", "UserId or password wrong.");
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+		}else if("lib".equals(content)) {
+
+			request.getRequestDispatcher("/WEB-INF/lib.jsp").forward(request, response);
 				
 		}
+		
 	}
 
 	/**
