@@ -7,7 +7,7 @@
 	<script src="/vdMa/js/hash.js"></script>
 	<script src="/vdMa/js/jquery-1.9.0.min.js"></script>
 	<script>
-		$(function () { $("body").html("<div id='fileinput'></div><div id='imageinfo'></div><div id='fileinfo'></div>"); $("#fileinput").html("图片：<input id='imageupload' type='file' name='file' onchange='uiload(this)'/><br/><br/> 视频：<input id='videoupload' type='file' name='file' onchange='uvload(this)'/><br/><br/>"); });
+		$(function () { $("body").html("<div id='fileinput'></div><div id='imageinfo'></div><div id='fileinfo'></div><div id='detailinfo'></div>"); $("#fileinput").html("图片：<input id='imageupload' type='file' name='file' onchange='uiload(this)'/><br/><br/> 视频：<input id='videoupload' type='file' name='file' onchange='uvload(this)'/><br/><br/>"); });
 		function uiload(obj) {
 			var bucketname = "oklegend"; //服务名
 			var username = "charlie";	  //操作员账号
@@ -26,8 +26,8 @@
 					"expiration": parseInt(Date.parse(new Date()) + 3600) }));
 
 			var signature = "UPYUN " + username + ":" + b64hamcsha1(HexMD5.MD5(password).toString(HexMD5.enc.Hex), "POST&/" + bucketname + "&" + policy);
-			//imageinfo.innerHTML = "文件名称: " + file.name + "<br/>" + "文件大小: " + file.size + "<br/>" + "文件类型: " + file.type + "<br/><br/>" +
-			//	"<div id='progress' style='width:300px;height:14px;border:1px solid #ddd;padding-top:0px;border-radius:4px;display:none'><div id='bar' style='float:left;background-color:#62BFFF; width:0%; height:14px; border-radius:3px;'></div><div id='percent' style='float:left;width:0px;display:inline-block; top:0px;font-size:10px;'></div>";
+			detailinfo.innerHTML = "<br/><br/>图片名称: " + file.name + "<br/>" + "图片大小: " + file.size + "<br/>" + "图片类型: " + file.type + "<br/><br/>" +
+				"<div id='progress' style='width:300px;height:14px;border:1px solid #ddd;padding-top:0px;border-radius:4px;display:none'><div id='bar' style='float:left;background-color:#62BFFF; width:0%; height:14px; border-radius:3px;'></div><div id='percent' style='float:left;width:0px;display:inline-block; top:0px;font-size:10px;'></div>";
 			var xhrOnProgress = function (fun) {
 				xhrOnProgress.onprogress = fun;
 				return function () {
@@ -59,11 +59,11 @@
 				}),
 				success: function (data, textStatus, xhr) {
 					$("#progress").hide();
-					imageinfo.innerHTML += "上传成功!<br/><br/>";
+					imageinfo.innerHTML += "图片上传成功!<br/><br/>";
 					// for (var key in JSON.parse(data)) {
 					// 	imageinfo.innerHTML += key + ": " + JSON.parse(data)[key] + "<br/>";
 					// }
-					imageinfo.innerHTML +="图片码: " + filecode + "<br/>";
+					imageinfo.innerHTML +="图片码: " + filecode + "<br/><br/>";
 				},
 				error: function (xhr) {
 					$("#progress").hide();
@@ -86,15 +86,15 @@
 			var url = "http://v0.api.upyun.com/" + bucketname;
 			var file = $(obj).get(0).files[0];
 			var fileinfo = document.getElementById("fileinfo");
-			var form = "	<form action=\"/vdMa/VideoController\" method=\"POST\">" + 
+			var form = "	<form action=\"/vdMa/VideoController?type=add\" method=\"POST\">" + 
 			"		视频码：<input type=\"text\" name=\"id\" readonly value='"+filecode+"'/><br>" + 
 			"		视频名称：<input type=\"text\" name=\"name\"/><br>" + 
 			"		视频权限：<input type=\"text\" name=\"vright\"/><br>" + 
-			"		视频描述：<textarea rows=\"4\" cols=\"50\" name=\"descp\">输入内容...</textarea><br>" + 
+			"		视频描述：<textarea rows=\"1\" cols=\"50\" name=\"descp\">输入内容...</textarea><br>" + 
 			"		视频访问量：<input type=\"text\" name=\"watchVolume\"/><br>" + 
 			"		上传日期：<input type=\"text\" name=\"date\"/><br>" + 
 			"		图片码：<input type=\"text\" name=\"url\"/><br>" + 
-			"		<input type=\"submit\" value=\"保存\">" + 
+			"		<input type=\"submit\" value=\"记得保存\">" + 
 			"	</form>";
 			var policy = btoa(
 				JSON.stringify(
@@ -103,8 +103,8 @@
 					"expiration": parseInt(Date.parse(new Date()) + 3600) }));
 
 			var signature = "UPYUN " + username + ":" + b64hamcsha1(HexMD5.MD5(password).toString(HexMD5.enc.Hex), "POST&/" + bucketname + "&" + policy);
-			//fileinfo.innerHTML = "文件名称: " + file.name + "<br/>" + "文件大小: " + file.size + "<br/>" + "文件类型: " + file.type + "<br/><br/>" +
-			//	"<div id='progress' style='width:300px;height:14px;border:1px solid #ddd;padding-top:0px;border-radius:4px;display:none'><div id='bar' style='float:left;background-color:#62BFFF; width:0%; height:14px; border-radius:3px;'></div><div id='percent' style='float:left;width:0px;display:inline-block; top:0px;font-size:10px;'></div>";
+			detailinfo.innerHTML += "视频名称: " + file.name + "<br/>" + "视频大小: " + file.size + "<br/>" + "视频类型: " + file.type + "<br/><br/>" +
+				"<div id='progress' style='width:300px;height:14px;border:1px solid #ddd;padding-top:0px;border-radius:4px;display:none'><div id='bar' style='float:left;background-color:#62BFFF; width:0%; height:14px; border-radius:3px;'></div><div id='percent' style='float:left;width:0px;display:inline-block; top:0px;font-size:10px;'></div>";
 			var xhrOnProgress = function (fun) {
 				xhrOnProgress.onprogress = fun;
 				return function () {
@@ -136,7 +136,7 @@
 				}),
 				success: function (data, textStatus, xhr) {
 					$("#progress").hide();
-					fileinfo.innerHTML += "上传成功!<br/><br/>";
+					fileinfo.innerHTML += "视频上传成功!<br/><br/>";
 					// for (var key in JSON.parse(data)) {
 					// 	fileinfo.innerHTML += key + ": " + JSON.parse(data)[key] + "<br/>";
 					// }

@@ -83,6 +83,108 @@ public class SqlHelper {
 		return ct;
 	
 	}
+
+	//only one crud
+	public static void executeUpdate(String sql, String[] parameters) {
+		try {
+			ct=getConnection();
+			
+			ps=ct.prepareStatement(sql);
+			//add
+			
+			if(parameters!=null) {
+				for(int i=0;i<parameters.length;i++) {
+					ps.setString(i+1, parameters[i]);
+			
+				}
+			}
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			close(rs, ps, ct);
+		}
+		
+
+	}
+	
+	//only one crud
+	public static ArrayList executeQuery3(String sql, String[] parameters) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet inrs = null;
+		
+		try {
+			conn=getConnection();
+			
+			pstmt=conn.prepareStatement(sql);
+			
+			if(parameters!=null&&!parameters.equals("")) {
+				for(int i=0;i<parameters.length;i++) {
+					pstmt.setObject(i+1, parameters[i]);
+				}
+			}
+			inrs = pstmt.executeQuery();
+			ArrayList al = new ArrayList();
+			ResultSetMetaData rsmd = (ResultSetMetaData) inrs.getMetaData();
+			int column = rsmd.getColumnCount();
+
+			while(inrs.next()) {
+				Object[] ob = new Object[column];
+				for (int i = 1;i<=column;i++) {
+					ob[i-1]=inrs.getObject(i);
+				}
+				al.add(ob);
+			}
+
+			return al;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			close(inrs, pstmt, conn);
+		
+		}
+	}
+	
+	public static void close(ResultSet rs, PreparedStatement ps, Connection ct) {
+		// TODO Auto-generated method stubpublic void close(ResultSet rs,CallableStatement cs,Connection ct) {
+		try {
+			if(rs!=null) rs.close();
+			if(ps!=null) ps.close();
+			if(ct!=null) ct.close();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	public static Connection getCt() {
+		return ct;
+	}
+	
+	public static PreparedStatement getPs() {
+		return ps;
+	}
+	
+	public static ResultSet getRs() {
+		return rs;
+	}
+	
+	public static CallableStatement getCs() {
+		return cs;
+	}
+}
+
+
+/**
+
 	//分页
 	public static ResultSet executeQuery2() {
 		return null;
@@ -177,46 +279,7 @@ public class SqlHelper {
 		}
 		return rs;
 	}
-	//only one crud
-	public static ArrayList executeQuery3(String sql, String[] parameters) {
-		PreparedStatement pstmt = null;
-		Connection conn = null;
-		ResultSet inrs = null;
-		
-		try {
-			conn=getConnection();
-			
-			pstmt=conn.prepareStatement(sql);
-			
-			if(parameters!=null&&!parameters.equals("")) {
-				for(int i=0;i<parameters.length;i++) {
-					pstmt.setObject(i+1, parameters[i]);
-				}
-			}
-			inrs = pstmt.executeQuery();
-			ArrayList al = new ArrayList();
-			ResultSetMetaData rsmd = (ResultSetMetaData) inrs.getMetaData();
-			int column = rsmd.getColumnCount();
-
-			while(inrs.next()) {
-				Object[] ob = new Object[column];
-				for (int i = 1;i<=column;i++) {
-					ob[i-1]=inrs.getObject(i);
-				}
-				al.add(ob);
-			}
-//			inrs.close();
-			return al;
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			close(inrs, pstmt, conn);
-		
-		}
-	}
+	
 	//考虑事物的crud
 	public static void executeUpdate2(String sql[],String [][]parameters) {
 		try {
@@ -263,65 +326,7 @@ public class SqlHelper {
 
 	}
 		
-	//only one crud
-	public static void executeUpdate(String sql, String[] parameters) {
-		try {
-			ct=getConnection();
-			
-			ps=ct.prepareStatement(sql);
-			//add
-			
-			if(parameters!=null) {
-				for(int i=0;i<parameters.length;i++) {
-					ps.setString(i+1, parameters[i]);
-			
-				}
-			}
-			ps.executeUpdate();
-//			for(int i=0;i<paras.length;i++) {
-//				ps.setString(i+1, paras[i]);
-//				
-//			}
-			
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			throw new RuntimeException(e.getMessage());
-		} finally {
-			close(rs, ps, ct);
-		}
-		
 
-	}
-	
-	
-	public static void close(ResultSet rs, PreparedStatement ps, Connection ct) {
-		// TODO Auto-generated method stubpublic void close(ResultSet rs,CallableStatement cs,Connection ct) {
-		try {
-			if(rs!=null) rs.close();
-			if(ps!=null) ps.close();
-			if(ct!=null) ct.close();
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
-	
-	public static Connection getCt() {
-		return ct;
-	}
-	
-	public static PreparedStatement getPs() {
-		return ps;
-	}
-	
-	public static ResultSet getRs() {
-		return rs;
-	}
-	
-	public static CallableStatement getCs() {
-		return cs;
-	}
-}
+
+
+**/

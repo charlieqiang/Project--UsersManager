@@ -9,7 +9,67 @@ import utils.SqlHelper;
 
 public class VideoService {
 	// getpage Count
-		public static int getPageCount(int pageSize) {
+		
+		//add
+		public static boolean addVideo(Video video) {
+			boolean b=true;
+			String sql="insert into videolib values(?,?,?,?,?,?,?)";
+			String parameters[]= {video.getId(),video.getName(),video.getRight(),video.getDescp(),video.getWatchVolume()+"",video.getDate(),video.getUrl()};
+			try {
+				SqlHelper.executeUpdate(sql, parameters);
+			} catch (Exception e) {
+				b=false;
+				e.printStackTrace();
+			}
+			return b;
+			
+			
+		}
+		
+		//get 
+		public ArrayList getVideo() {
+			// TODO Auto-generated method stub
+			ArrayList<Video> al=new ArrayList<Video>();
+			//
+			String sql="select * from videolib;";
+
+			ArrayList al02=SqlHelper.executeQuery3(sql, null);
+			//second package
+			
+			
+			//package
+			try {
+				
+				for(int i=0;i<al02.size();i++) {
+					Object[] objs=(Object[])al02.get(i);
+					Video video=new Video();
+					video.setId(objs[0].toString());
+					video.setName(objs[1].toString());
+					video.setRight(objs[2].toString());
+					video.setDescp(objs[3].toString());
+					video.setWatchVolume(Integer.parseInt(objs[4].toString()));
+					video.setDate(objs[5].toString());
+					video.setUrl(objs[5].toString());
+					
+					al.add(video);
+				}
+
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return al;
+		}
+
+}
+
+
+/**
+
+
+public static int getPageCount(int pageSize) {
 			
 			String sql="select count(*) from Videos";
 			ResultSet rs=SqlHelper.executeQuery(sql, null);
@@ -96,22 +156,6 @@ public class VideoService {
 			return Video;
 		}
 		
-
-		//add
-		public static boolean addVideo(Video Video) {
-			boolean b=true;
-			String sql="insert into Videos values(?,?,?,?,?,?,?)";
-			String parameters[]= {Video.getId(),Video.getName(),Video.getRight(),Video.getDescp(),Video.getWatchVolume()+"",Video.getDate(),Video.getUrl()};
-			try {
-				SqlHelper.executeUpdate(sql, parameters);
-			} catch (Exception e) {
-				b=false;
-				e.printStackTrace();
-			}
-			return b;
-			
-			
-		}
 		//change
 		public static boolean updVideo(Video Video) {
 			boolean b=true;
@@ -143,4 +187,6 @@ public class VideoService {
 			
 		}
 
-}
+
+
+**/

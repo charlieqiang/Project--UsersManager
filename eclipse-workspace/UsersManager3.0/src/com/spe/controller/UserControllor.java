@@ -117,6 +117,7 @@ public class UserControllor extends HttpServlet {
 			}
 			
 			if(val!=null&&val.equals("keep")) {
+				
 			}
 		}else if ("update".equals(type)){
 			//get id

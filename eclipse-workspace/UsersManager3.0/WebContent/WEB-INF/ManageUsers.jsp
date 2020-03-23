@@ -64,11 +64,11 @@
 					<th>grade</th>
 					<th>change</th>
 					<th>delete</th></tr>
-								<%
+			<%
 				ArrayList<User> al =(ArrayList<User>)request.getAttribute("al");
 				
 				for(User u:al){
-					%>
+			%>
 						<tr><td><%=u.getId() %>
 						</td><td><%=u.getName() %>
 						</td><td><%=u.getEmail() %>

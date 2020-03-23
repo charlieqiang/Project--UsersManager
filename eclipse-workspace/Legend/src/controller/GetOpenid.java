@@ -71,6 +71,7 @@ public class GetOpenid extends HttpServlet {
 			//get right
 			user = UserService.getUserByOpenid(user.getOpenid());
 			out.print(user.toJson());
+			
         } catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+// 解决中文乱码的问题
+String info = new String(request.getParameter("info"));
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +13,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:forward page="/ApiController"></jsp:forward>
+<%=info%><br/><br/>
+<a href="/vdMa/ContentController?content=main">返回首页</a>
 </body>
 </html>
