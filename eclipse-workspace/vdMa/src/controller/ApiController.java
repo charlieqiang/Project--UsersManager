@@ -38,18 +38,56 @@ public class ApiController extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
+		
+		//set page
+		int pageNow=1;
+		int pageSize=5;
+//		int pageCount=1;
+		
+		//get request
+		String pageNowString=request.getParameter("pageNow");
+		
+		if(pageNowString!=null) {
+			pageNow=Integer.parseInt(pageNowString);
+		}
+		
 		//new 
 		VideoService videoService=new VideoService();
 		
-		ArrayList<Video> al = videoService.getVideo();
+		ArrayList<Video> al = videoService.getVideoByPage(pageNow,pageSize);
 
 		for(Video v:al) {
 			if(0==al.indexOf(v)) {
-				out.println("[{\"id\":\""+ v.getId()+"\"}");
+				
+				out.print("[{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
+						"\",\"name\": \""+v.getName()
+						+ "\",\"vright\": \""+v.getRight()
+						+ "\",\"descp\": \""+v.getDescp()
+						+ "\",\"watchVolume\": \""+v.getWatchVolume()
+						+ "\",\"date\": \""+v.getDate()
+						+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
+						+ "\"}");
+				if((al.size()-1)==al.indexOf(v)) {
+					out.println("]");
+				}
 			}else if ((al.size()-1)==al.indexOf(v)) {
-				out.println(",{\"id\":\""+ v.getId()+"\"}]");
+				out.println(",{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
+						"\",\"name\": \""+v.getName()
+						+ "\",\"vright\": \""+v.getRight()
+						+ "\",\"descp\": \""+v.getDescp()
+						+ "\",\"watchVolume\": \""+v.getWatchVolume()
+						+ "\",\"date\": \""+v.getDate()
+						+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
+						+ "\"}]");
 			}else {
-				out.println(",{\"id\":\""+ v.getId()+"\"}");
+				out.println(",{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
+						"\",\"name\": \""+v.getName()
+						+ "\",\"vright\": \""+v.getRight()
+						+ "\",\"descp\": \""+v.getDescp()
+						+ "\",\"watchVolume\": \""+v.getWatchVolume()
+						+ "\",\"date\": \""+v.getDate()
+						+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
+						+ "\"}");
 			}
 			
 		}

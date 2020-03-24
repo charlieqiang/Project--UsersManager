@@ -15,8 +15,8 @@
 			var filename = Math.random().toString(36).substr(2).substring(0,5);
 			var timestamp = (new Date()).valueOf();
 			var filecode = timestamp+filename;
-			var save_key = "/image/"+filecode+"{.suffix}";
-			var url = "http://v0.api.upyun.com/" + bucketname;
+			var save_key = "/image/"+filecode;
+			var url = "https://v0.api.upyun.com/" + bucketname;
 			var file = $(obj).get(0).files[0];
 			var imageinfo = document.getElementById("imageinfo");
 			var policy = btoa(
@@ -82,8 +82,8 @@
 			var filename = Math.random().toString(36).substr(2).substring(0,5);
 			var timestamp = (new Date()).valueOf();
 			var filecode = timestamp+filename;
-			var save_key = "/video/"+filecode+"{.suffix}";
-			var url = "http://v0.api.upyun.com/" + bucketname;
+			var save_key = "/video/"+filecode;
+			var url = "https://v0.api.upyun.com/" + bucketname;
 			var file = $(obj).get(0).files[0];
 			var fileinfo = document.getElementById("fileinfo");
 			var form = "	<form action=\"/vdMa/VideoController?type=add\" method=\"POST\">" + 
