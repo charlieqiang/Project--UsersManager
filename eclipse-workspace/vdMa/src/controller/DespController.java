@@ -6,22 +6,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import domain.Desp;
+import domain.Img;
+import service.DespService;
+import service.ImgService;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class DespController
  */
-@WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+@WebServlet("/DespController")
+public class DespController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public DespController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,30 +32,31 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
-		SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间 
-        sdf.applyPattern("yyyyMMdd");// a为am/pm的标记  
-        Date date = new Date();// 获取当前时间 
-        String pwd = sdf.format(date);
-//        System.out.println(pwd);
-        
-		String account=request.getParameter("account");
+	
+		//add into db
 		
-		String password=request.getParameter("password");
+	        
+		String despString=request.getParameter("desp");
+		
+		//package
+		Desp desp = new Desp();
+		
+		desp.setDesp(despString);
 
-		//check code
-		if("ltzf".equals(account)&&"qqqq8888".equals(password)) {
+		if(DespService.addDesp(desp)) {
+			
+			request.getRequestDispatcher("/WEB-INF/info.jsp?info=addok").forward(request, response);
 
-			request.getRequestDispatcher("/WEB-INF/main.jsp" ).forward(request, response);
-				
 		}else {
-//			request.setAttribute("err", "UserId or password wrong.");
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
-				
+			
+			request.getRequestDispatcher("/WEB-INF/info.jsp?info=adderr").forward(request, response);
+			
 		}
+
 	}
 
 	/**

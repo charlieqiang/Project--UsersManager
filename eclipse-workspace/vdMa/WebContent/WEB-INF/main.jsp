@@ -58,7 +58,10 @@
 
     <p>
       <a href="/vdMa/ContentController?content=upload" class="btn btn-primary btn-large">上传视频 »</a>
+      <a href="/vdMa/ContentController?content=uploadImg" class="btn btn-primary btn-large">上传图片 »</a>
+      <a href="/vdMa/ContentController?content=uploadDesp" class="btn btn-primary btn-large">上传描述 »</a>
       <a href="/vdMa/ContentController?content=lib" class="btn btn-primary btn-large">查看视频库 »</a>
+      <a href="/vdMa/ContentController?content=imgLib" class="btn btn-primary btn-large">查看图片库 »</a>
     </p>
   </div>
 </body>

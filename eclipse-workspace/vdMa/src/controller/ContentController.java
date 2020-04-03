@@ -50,6 +50,18 @@ public class ContentController extends HttpServlet {
 			
 			request.getRequestDispatcher("/WEB-INF/main.jsp").forward(request, response);
 			
+		}else if("uploadImg".equals(content)) {
+			
+			request.getRequestDispatcher("/WEB-INF/uploadImg.jsp").forward(request, response);
+			
+		}else if("lib".equals(content)) {
+
+			request.getRequestDispatcher("/WEB-INF/lib.jsp").forward(request, response);
+				
+		}else if("uploadDesp".equals(content)) {
+
+			request.getRequestDispatcher("/WEB-INF/uploadDesp.jsp").forward(request, response);
+				
 		}
 		
 	}

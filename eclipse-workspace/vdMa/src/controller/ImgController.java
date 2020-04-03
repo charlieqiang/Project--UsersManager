@@ -6,22 +6,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import domain.Img;
+import domain.Video;
+import service.ImgService;
+import service.VideoService;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class ImgController
  */
-@WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+@WebServlet("/ImgController")
+public class ImgController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public ImgController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,29 +32,34 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
-		SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间 
-        sdf.applyPattern("yyyyMMdd");// a为am/pm的标记  
-        Date date = new Date();// 获取当前时间 
-        String pwd = sdf.format(date);
-//        System.out.println(pwd);
-        
-		String account=request.getParameter("account");
-		
-		String password=request.getParameter("password");
-
-		//check code
-		if("ltzf".equals(account)&&"qqqq8888".equals(password)) {
-
-			request.getRequestDispatcher("/WEB-INF/main.jsp" ).forward(request, response);
+	
+		//call service
+		String type=request.getParameter("type");
+		//add into db
+		if("add".equals(type)) {
+	        
+			String url=request.getParameter("url");
+			
+			//package
+			Img img = new Img();
+			
+			img.setUrl(url);
+//			System.out.println(url);
+			
+			if(ImgService.addImg(img)) {
 				
-		}else {
-//			request.setAttribute("err", "UserId or password wrong.");
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/info.jsp?info=addok").forward(request, response);
+
+			}else {
 				
+				request.getRequestDispatcher("/WEB-INF/info.jsp?info=adderr").forward(request, response);
+				
+			}
+			
 		}
 	}
 

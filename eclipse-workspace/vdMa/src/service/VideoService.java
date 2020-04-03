@@ -13,7 +13,7 @@ public class VideoService {
 		//add
 		public static boolean addVideo(Video video) {
 			boolean b=true;
-			String sql="insert into videolib values(?,?,?,?,?,?,?)";
+			String sql="insert into videolib values(?,?,?,?,?,?,?);";
 			String parameters[]= {video.getId(),video.getName(),video.getRight(),video.getDescp(),video.getWatchVolume()+"",video.getDate(),video.getUrl()};
 			try {
 				SqlHelper.executeUpdate(sql, parameters);
@@ -63,11 +63,51 @@ public class VideoService {
 			return al;
 		}
 
+		//bypage
 		public ArrayList getVideoByPage(int pageNow,int pageSize) {
 			//create al
 			ArrayList<Video> al=new ArrayList<Video>();
 			//create sql
 			String sql="select * from videolib  limit "+((pageNow-1)*pageSize)+","+pageSize+";";
+
+			ArrayList al02=SqlHelper.executeQuery3(sql, null);
+			//second package
+			
+			//package
+			try {
+				
+				for(int i=0;i<al02.size();i++) {
+					Object[] objs=(Object[])al02.get(i);
+					Video video=new Video();
+					video.setId(objs[0].toString());
+					video.setName(objs[1].toString());
+					video.setRight(objs[2].toString());
+					video.setDescp(objs[3].toString());
+					video.setWatchVolume(Integer.parseInt(objs[4].toString()));
+					video.setDate(objs[5].toString());
+					video.setUrl(objs[6].toString());
+					
+					al.add(video);
+				}
+
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return al;
+
+			
+		}
+		
+		//bypage
+		public ArrayList getVideoByRight(int pageNow,int pageSize,String right) {
+			//create al
+			ArrayList<Video> al=new ArrayList<Video>();
+			//create sql
+			
+			String sql="select * from videolib where vright = '"+right+"' limit "+((pageNow-1)*pageSize)+","+pageSize+";";
 
 			ArrayList al02=SqlHelper.executeQuery3(sql, null);
 			//second package

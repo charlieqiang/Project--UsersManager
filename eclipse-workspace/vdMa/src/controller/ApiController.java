@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import domain.Desp;
+import domain.Img;
 import domain.Video;
+import service.DespService;
+import service.ImgService;
 import service.VideoService;
 
 /**
@@ -45,52 +49,101 @@ public class ApiController extends HttpServlet {
 //		int pageCount=1;
 		
 		//get request
-		String pageNowString=request.getParameter("pageNow");
+		String type=request.getParameter("type");
 		
-		if(pageNowString!=null) {
-			pageNow=Integer.parseInt(pageNowString);
-		}
-		
-		//new 
-		VideoService videoService=new VideoService();
-		
-		ArrayList<Video> al = videoService.getVideoByPage(pageNow,pageSize);
+		if("video".equals(type)) {
+			
+			String pageNowString=request.getParameter("pageNow");
+			String right=request.getParameter("right");
+			String pageSizeString=request.getParameter("pageSize");
+			
+			if(pageNowString!=null) {
+				pageNow=Integer.parseInt(pageNowString);
+			}
+			
+			if(pageSizeString!=null) {
+				pageSize=Integer.parseInt(pageSizeString);
+			}
+			
+			//new 
+			VideoService videoService=new VideoService();
+			
+			ArrayList<Video> al = videoService.getVideoByRight(pageNow,pageSize,right);
 
-		for(Video v:al) {
-			if(0==al.indexOf(v)) {
-				
-				out.print("[{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
-						"\",\"name\": \""+v.getName()
-						+ "\",\"vright\": \""+v.getRight()
-						+ "\",\"descp\": \""+v.getDescp()
-						+ "\",\"watchVolume\": \""+v.getWatchVolume()
-						+ "\",\"date\": \""+v.getDate()
-						+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
-						+ "\"}");
-				if((al.size()-1)==al.indexOf(v)) {
-					out.println("]");
+			for(Video v:al) {
+				if(0==al.indexOf(v)) {
+					
+					out.print("[{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
+							"\",\"name\": \""+v.getName()
+							+ "\",\"vright\": \""+v.getRight()
+							+ "\",\"descp\": \""+v.getDescp()
+							+ "\",\"watchVolume\": \""+v.getWatchVolume()
+							+ "\",\"date\": \""+v.getDate()
+							+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
+							+ "\"}");
+					if((al.size()-1)==al.indexOf(v)) {
+						out.println("]");
+					}
+				}else if ((al.size()-1)==al.indexOf(v)) {
+					out.println(",{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
+							"\",\"name\": \""+v.getName()
+							+ "\",\"vright\": \""+v.getRight()
+							+ "\",\"descp\": \""+v.getDescp()
+							+ "\",\"watchVolume\": \""+v.getWatchVolume()
+							+ "\",\"date\": \""+v.getDate()
+							+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
+							+ "\"}]");
+				}else {
+					out.println(",{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
+							"\",\"name\": \""+v.getName()
+							+ "\",\"vright\": \""+v.getRight()
+							+ "\",\"descp\": \""+v.getDescp()
+							+ "\",\"watchVolume\": \""+v.getWatchVolume()
+							+ "\",\"date\": \""+v.getDate()
+							+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
+							+ "\"}");
 				}
-			}else if ((al.size()-1)==al.indexOf(v)) {
-				out.println(",{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
-						"\",\"name\": \""+v.getName()
-						+ "\",\"vright\": \""+v.getRight()
-						+ "\",\"descp\": \""+v.getDescp()
-						+ "\",\"watchVolume\": \""+v.getWatchVolume()
-						+ "\",\"date\": \""+v.getDate()
-						+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
-						+ "\"}]");
-			}else {
-				out.println(",{\"id\":\"https://legend.spe.kim/video/"+ v.getId()+
-						"\",\"name\": \""+v.getName()
-						+ "\",\"vright\": \""+v.getRight()
-						+ "\",\"descp\": \""+v.getDescp()
-						+ "\",\"watchVolume\": \""+v.getWatchVolume()
-						+ "\",\"date\": \""+v.getDate()
-						+ "\",\"url\": \"https://legend.spe.kim/image/"+v.getUrl()
-						+ "\"}");
+				
+				
+			}
+			
+		}else if ("img".equals(type)){
+			//new 
+			ImgService imgService=new ImgService();
+			
+			ArrayList<Img> ial = imgService.getImg();
+
+			for(Img i:ial) {
+				if(0==ial.indexOf(i)) {
+					out.print("[{\"url\": \"https://legend.spe.kim/img/"+i.getUrl()
+							+ "\"}");
+					if((ial.size()-1)==ial.indexOf(i)) {
+						out.println("]");
+					}
+				}else if ((ial.size()-1)==ial.indexOf(i)) {
+					out.println(",{\"url\": \"https://legend.spe.kim/img/"+i.getUrl()
+							+ "\"}]");
+				}else {
+					out.println(",{\"url\": \"https://legend.spe.kim/img/"+i.getUrl()
+							+ "\"}");
+				}
+				
+			}
+			
+		}else if ("desp".equals(type)){
+			//new 
+			DespService despService=new DespService();
+			
+			ArrayList<Desp> dal = despService.getDesp();
+
+			for(Desp d:dal) {
+					out.print("{\"desp\": \""+d.getDesp()
+							+ "\"}");
 			}
 			
 		}
+		
+		
 		
 	}
 
